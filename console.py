@@ -12,14 +12,12 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
-# Parse helper function
+
 def parse(arg):
-    """Parses the input command from the user."""
     curly_braces = re.search(r"\{(.*?)\}", arg)
     brackets = re.search(r"\[(.*?)\]", arg)
     if curly_braces is None:
         if brackets is None:
-            # If there are no curly braces or brackets in the input, split the input by space
             return [i.strip(",") for i in split(arg)]
         else:
             lexer = split(arg[:brackets.span()[0]])
@@ -27,7 +25,6 @@ def parse(arg):
             retl.append(brackets.group())
             return retl
     else:
-        # If there are curly braces in the input, split the input by the curly braces
         lexer = split(arg[:curly_braces.span()[0]])
         retl = [i.strip(",") for i in lexer]
         retl.append(curly_braces.group())
@@ -57,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def default(self, arg):
-        """Handles default behavior for the cmd module when input is invalid."""
+        """Default behavior for cmd module when input is invalid"""
         argdict = {
             "all": self.do_all,
             "show": self.do_show,
@@ -78,17 +75,17 @@ class HBNBCommand(cmd.Cmd):
         return False
 
     def do_quit(self, arg):
-        """Quit the program."""
+        """Quit command to exit the program."""
         return True
 
     def do_EOF(self, arg):
-        """Exits the program."""
+        """EOF signal to exit the program."""
         print("")
         return True
 
     def do_create(self, arg):
         """Usage: create <class>
-        Display the number of instances of a given class."""
+        Create a new class instance and print its id.
         """
         argl = parse(arg)
         if len(argl) == 0:
